@@ -93,11 +93,11 @@ namespace JeuTest
                 {
                     if (arrayLettersOP[count].Equals(' '))
                     {
-                        btn.Opacity = 0;
+                        btn.Visibility = Visibility.Hidden;
                     }
                     else
                     {
-                        btn.Opacity = 100;
+                        btn.Visibility = Visibility.Visible;
                     }
 
                     btn.Content = arrayLettersOP[count];
@@ -110,7 +110,7 @@ namespace JeuTest
 
         private void Counter()
         {
-            time = TimeSpan.FromSeconds(30);
+            time = TimeSpan.FromSeconds(300);
 
             timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
