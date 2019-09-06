@@ -44,7 +44,8 @@ namespace JeuTest
              */
             foreach ( Button btn in arrayLetters.Children )
             {
-                btn.PreviewMouseDown += BtnPreviewMouseDown;
+                //btn.PreviewMouseDown += BtnPreviewMouseDown;
+                btn.PreviewMouseDown += BtnPreviewMouseDown_2;
                 btn.Drop             += BtnDragDrop;
                 btn.Drop             += Result;
                 btn.IsEnabled        = false;
@@ -148,9 +149,34 @@ namespace JeuTest
             Data.SetData( btn );
 
             // Si le bouton est vide alors on ne permet pas le Drag & Drop
-            if ( ! btn.Content.Equals(" ") )
+            if ( ! btn.Content.Equals(' ') )
             {
                 DragDrop.DoDragDrop( btn, Data, DragDropEffects.Move );
+            }
+        }
+
+        private void BtnPreviewMouseDown_2(object sender, MouseEventArgs e)
+        {
+            Button btnStart = sender as Button;
+            int y = Grid.GetRow(btnStart);
+            int x = Grid.GetColumn(btnStart);
+
+            foreach (Button btn in arrayLetters.Children)
+            {
+                if ( Grid.GetRow(btn) == Grid.GetRow(btnStart) && Grid.GetColumn(btn) == Grid.GetColumn(btnStart) + 1 ||
+                     Grid.GetRow(btn) == Grid.GetRow(btnStart) && Grid.GetColumn(btn) == Grid.GetColumn(btnStart) - 1 ||
+                     Grid.GetRow(btn) == Grid.GetRow(btnStart) + 1 && Grid.GetColumn(btn) == Grid.GetColumn(btnStart) ||
+                     Grid.GetRow(btn) == Grid.GetRow(btnStart) - 1 && Grid.GetColumn(btn) == Grid.GetColumn(btnStart)
+                 )
+                {
+                    if( btn.Content.Equals( ' ' ) )
+                    {
+                        btnStart.SetValue( Grid.ColumnProperty, btn.GetValue( Grid.ColumnProperty ) );
+                        btnStart.SetValue( Grid.RowProperty, btn.GetValue( Grid.RowProperty ) );
+                        btn.SetValue( Grid.ColumnProperty, x );
+                        btn.SetValue( Grid.RowProperty, y );
+                    }
+                }
             }
         }
 
